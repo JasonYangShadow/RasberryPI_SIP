@@ -1,4 +1,4 @@
-#!/bin/python
+#!/bin/python3
 
-if __main__=='__main__':
-    print("hello world")
+if __name__ == '__main__':
+    print "hello world"
