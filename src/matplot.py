@@ -10,3 +10,8 @@ class Plot:
 
     def show(self):
         plti.show()
+
+
+if __name__ == '__main__':
+    plot = Plot() 
+    plot.show()
