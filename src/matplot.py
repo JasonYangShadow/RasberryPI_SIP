@@ -15,7 +15,7 @@ class RealPlot:
 
     def add(self,chanel,x,y):
         if chanel in self.__data:
-            if len(self.__data[chanel]['x']) == maxsize:
+            if len(self.__data[chanel]['x']) >= maxsize:
                 self.__data[chanel]['x'].pop(0)
                 self.__data[chanel]['y'].pop(0)
             self.__data[chanel]['x'].append(x)
@@ -30,10 +30,14 @@ class RealPlot:
         plt.title('realtime signal')
         plt.xlabel('time(s)')
         plt.ylabel('bool signal')
-        plt.ylim(0,2)
+        plt.ylim(0,1)
+        legend = []
         for chanel in self.__data.keys():
             self.add(chanel,datetime.now(),0)
-            line, = self.__ax.plot(self.__data[chanel]['x'],self.__data[chanel]['y'])
+            self.__ax.plot(self.__data[chanel]['x'],self.__data[chanel]['y'])
+            legend.append(['chanel:'+str(chanel)])
+        plt.legend(legend)
+
 
     def show(self):
         ani = animation.FuncAnimation(self.__fig, self.__animate, interval = 1000)

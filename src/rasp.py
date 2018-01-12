@@ -21,13 +21,9 @@ class Rasp:
         self.__sqlite.insert_table(chanel,'hist_data')
 
     def run(self):
-        #for i in IN:
-        #    GPIO.add_event_detect(i, GPIO.RISING)
-        #    GPIO.add_event_callback(i, GPIO.RISING, call_back = self.__callback_realtime, bouncetime = 100)
-        #    GPIO.add_event_callback(i, GPIO.RISING, call_back = self.__callback_sqlite, bouncetime = 100)
-        for i in range(1,5):
-            self.__realplot.add(1,datetime.now(),1)
-            self.__realplot.add(2,datetime.now(),1)
-            time.sleep(1)
+        for i in IN:
+            GPIO.add_event_detect(i, GPIO.RISING)
+            GPIO.add_event_callback(i, GPIO.RISING, call_back = self.__callback_realtime, bouncetime = 100)
+            GPIO.add_event_callback(i, GPIO.RISING, call_back = self.__callback_sqlite, bouncetime = 100)
 
 
