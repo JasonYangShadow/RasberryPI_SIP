@@ -22,11 +22,11 @@ class MatPlot:
     def animate(self):
         return plt.plot(self.__x,self.__y, color ='g')
 
-    def show(self):
-        anim = animation.FuncAnimation(self.__fig,self.animate,frames = self.gen_data, interval = 1000)
+    def show(self,table):
+        anim = animation.FuncAnimation(self.__fig,self.animate,frames = self.gen_data,fargs=(table),interval = 1000)
         plt.show()
 
 
 if __name__ == '__main__':
     plot = MatPlot('real_time','time(s)','count')
-    plot.show()
+    plot.show('real_data')
