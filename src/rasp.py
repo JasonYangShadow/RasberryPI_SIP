@@ -4,7 +4,7 @@ from matplot import RealPlot
 from datetime import datetime
 import time
 
-IN = []
+IN = [18]
 
 class Rasp:
     
@@ -12,6 +12,7 @@ class Rasp:
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(IN, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
         self.__sqlite = Sqlite() 
+        self.__sqlite.create_table('hist_data')
         self.__realplot = realplot
 
     def __callback_realtime(self,chanel):
