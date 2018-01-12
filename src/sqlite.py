@@ -14,12 +14,17 @@ class Sqlite:
         self.__cur.execute('DROP TABLE '+table)
 
 
-    def insert_table(self, chanel, table, datetime = datetime.now()):
+    def insert_table(self, chanel, table, datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")):
         self.__cur.execute('INSERT INTO '+table+' VALUES(?,?,?)',(None,datetime,chanel))
 
     def query_all(self,table):
         self.__cur.execute('SELECT * FROM '+table)
         return self.__cur.fetchall()
+
+    def query_bytime(self,table):
+        self.__cur.execute("SELECT * FROM "+table+" WHERE timestamp >= date('now','-1 days')")
+        return self.__cur.fetchall()
+
 
     def query_chanel(self, chanel, table):
         self.__cur.execute('SELECT * FROM '+table+' where chanel = ?',(chanel,))

@@ -2,4 +2,5 @@ bin/
 include/
 lib/
 share/
+src/__pycache__/
 pip-selfcheck.json

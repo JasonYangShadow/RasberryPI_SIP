@@ -1,32 +1,48 @@
+import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from sqlite import Sqlite
 
-class MatPlot:
-
-    def __init__(self,title,label_x,label_y):
+class RealPlot:
+    
+    def __init__(self):
         self.__fig = plt.figure()
-        plt.title(title)
-        plt.xlabel(label_x)
-        plt.ylabel(label_y)
-        self.__x = []
-        self.__y = []
-        self.__sqlite = Sqlite()
+        self.__ax = self.__fig.add_subplot(1,1,1)
+        self.data = {} 
+        self.lines = []
 
-    def gen_data(self,table = 'real_data'):
-        rows = self.__sqlite.query_delete(table)
-        for r in rows:
-            self.__x.append(r[1])
-            self.__y.append(1)
+    def add(self,chanel,x,y):
+        if chanel in self.data:
+            self.data[chanel]['x'].append(x)
+            self.data[chanel]['y'].append(y)
+        else:
+            self.data[chanel] = {}
+            self.data[chanel]['x']=[]
+            self.data[chanel]['y']=[]
 
-    def animate(self):
-        return plt.plot(self.__x,self.__y, color ='g')
+    def __animate(self,i):
+        self.__ax.clear()
+        self.lines.clear()
+        for key in self.data.keys():
+            line, = self.__ax.plot(self.data[key]['x'],self.data[key]['y'])
+            self.lines.append(line)
+            plt.legend(handles = [line])
 
     def show(self):
-        anim = animation.FuncAnimation(self.__fig,self.animate,frames = self.gen_data,interval = 1000)
+        plt.title('realtime signal')
+        plt.xlabel('time(s)')
+        plt.ylabel('bool signal')
+        plt.ylim(0,1)
+        ani = animation.FuncAnimation(self.__fig, self.__animate, interval = 1000)
         plt.show()
 
 
-if __name__ == '__main__':
-    plot = MatPlot('real_time','time(s)','count')
-    plot.show()
+class HistPlot:
+   
+    def __init__(self):
+        self.__fig = plt.figure()
+        self.__ax = self.__fig.add_subplot(1,1,1)
+        self.__sqlite = Sqlite()
+
+    def show(self):
+        rows = self.__sqlite.query_bytime('hist_data')

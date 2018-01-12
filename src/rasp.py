@@ -1,24 +1,22 @@
-#!/bin/python3
-try:
-    import RPi.GPIO as GPIO
-except RuntimeError:
-    print("cound not import GPIO. please use pip install to install the package")
-import time
+import RPi.GPIO as GPIO
 from sqlite import Sqlite
+from matplot import RealPlot
+from datetime import datetime
 
 IN = []
 OUT = []
 
 class Rasp:
     
-    def __init__(self,sqldb):
+    def __init__(self,realplot):
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(IN, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
-        GPIO.setup(OUT, GIIO.OUT, pull_up_down = GPIO.PUD_DOWN)
+        GPIO.setup(OUT, GPIO.OUT, pull_up_down = GPIO.PUD_DOWN)
         self.__sqlite = Sqlite() 
+        self.__realplot = realplot
 
     def __callback_realtime(self,chanel):
-        self.__sqlite.insert_table(chanel, 'real_data')
+        self.__realplot.add(chanel,datetime.now().strftime("%Y-%m-%d %H:%M:%S"),1)
 
     def __callback_sqlite(self,chanel):
         self.__sqlite.insert_table(chanel,'hist_data')
