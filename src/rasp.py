@@ -18,11 +18,10 @@ class Rasp:
         self.__sqlite = Sqlite() 
 
     def __callback_realtime(self,chanel):
-        pass
-        #call matplot real time
+        self.__sqlite.insert_table(chanel, 'real_data')
 
     def __callback_sqlite(self,chanel):
-        self.__sqlite.insert_table(chanel) 
+        self.__sqlite.insert_table(chanel,'hist_data')
 
     def run(self):
         for i in IN:
