@@ -2,37 +2,40 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from sqlite import Sqlite
+from datetime import datetime
+
+maxsize = 10
 
 class RealPlot:
     
     def __init__(self):
         self.__fig = plt.figure()
         self.__ax = self.__fig.add_subplot(1,1,1)
-        self.data = {} 
-        self.lines = []
+        self.__data = {} 
 
     def add(self,chanel,x,y):
-        if chanel in self.data:
-            self.data[chanel]['x'].append(x)
-            self.data[chanel]['y'].append(y)
+        if chanel in self.__data:
+            if len(self.__data[chanel]['x']) == maxsize:
+                self.__data[chanel]['x'].pop(0)
+                self.__data[chanel]['y'].pop(0)
+            self.__data[chanel]['x'].append(x)
+            self.__data[chanel]['y'].append(y)
         else:
-            self.data[chanel] = {}
-            self.data[chanel]['x']=[]
-            self.data[chanel]['y']=[]
+            self.__data[chanel] = {}
+            self.__data[chanel]['x']=[]
+            self.__data[chanel]['y']=[]
 
     def __animate(self,i):
         self.__ax.clear()
-        self.lines.clear()
-        for key in self.data.keys():
-            line, = self.__ax.plot(self.data[key]['x'],self.data[key]['y'])
-            self.lines.append(line)
-            plt.legend(handles = [line])
-
-    def show(self):
         plt.title('realtime signal')
         plt.xlabel('time(s)')
         plt.ylabel('bool signal')
-        plt.ylim(0,1)
+        plt.ylim(0,2)
+        for chanel in self.__data.keys():
+            self.add(chanel,datetime.now(),0)
+            line, = self.__ax.plot(self.__data[chanel]['x'],self.__data[chanel]['y'])
+
+    def show(self):
         ani = animation.FuncAnimation(self.__fig, self.__animate, interval = 1000)
         plt.show()
 
@@ -46,3 +49,4 @@ class HistPlot:
 
     def show(self):
         rows = self.__sqlite.query_bytime('hist_data')
+

@@ -5,6 +5,6 @@ from rasp import Rasp
 
 if __name__ == '__main__':
     realplot = RealPlot() 
-    realplot.show()
     rp = Rasp(realplot)
     rp.run()
+    realplot.show()

@@ -14,7 +14,7 @@ class Sqlite:
         self.__cur.execute('DROP TABLE '+table)
 
 
-    def insert_table(self, chanel, table, datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")):
+    def insert_table(self, chanel, table, datetime = datetime.now()):
         self.__cur.execute('INSERT INTO '+table+' VALUES(?,?,?)',(None,datetime,chanel))
 
     def query_all(self,table):
