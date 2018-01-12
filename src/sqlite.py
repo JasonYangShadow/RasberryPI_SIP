@@ -38,10 +38,4 @@ class Sqlite:
 
 if __name__ == '__main__':
     sqlite = Sqlite() 
-    sqlite.drop_table('hist_data')
-    sqlite.drop_table('real_data')
-    sqlite.create_table(table = 'hist_data')
-    sqlite.create_table(table = 'real_data')
-    sqlite.insert_table(12,table = 'real_data')
-    print(sqlite.query_delete('real_data'))
-    print(sqlite.query_chanel(12,'real_data'))
+    print(sqlite.query_all('hist_data'))

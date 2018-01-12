@@ -30,7 +30,7 @@ class RealPlot:
         plt.title('realtime signal')
         plt.xlabel('time(s)')
         plt.ylabel('bool signal')
-        plt.ylim(0,1)
+        plt.ylim(0,1.5)
         legend = []
         for chanel in self.__data.keys():
             self.add(chanel,datetime.now(),0)
