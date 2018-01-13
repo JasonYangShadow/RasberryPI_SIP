@@ -4,7 +4,7 @@ import matplotlib.animation as animation
 from sqlite import Sqlite
 from datetime import datetime
 
-maxsize = 10
+maxsize = 50
 
 class RealPlot:
     

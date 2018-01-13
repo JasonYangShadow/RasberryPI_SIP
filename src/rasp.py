@@ -5,7 +5,7 @@ from datetime import datetime
 import time
 import threading
 
-IN = [18]
+IN = [18,23]
 
 class Rasp:
     
@@ -21,7 +21,7 @@ class Rasp:
 
     def run(self):
         for i in IN:
-            GPIO.add_event_detect(i, GPIO.RISING,callback = self.__callback, bouncetime = 2000)
+            GPIO.add_event_detect(i, GPIO.RISING,callback = self.__callback, bouncetime = 200)
 
 
 def worker(IN, realplot):
@@ -30,7 +30,7 @@ def worker(IN, realplot):
             input_state = GPIO.input(i)
             if input_state == False:
                 realplot.add(i,datetime.now(),1)
-        time.sleep(0.2)
+        time.sleep(0.1)
 
 
 class RaspIter:
@@ -46,3 +46,22 @@ class RaspIter:
         t = threading.Thread(target = worker,args = (IN, self.__realplot))
         t.start()
 
+
+class Buzzer:
+    def __init__(self, OUT):
+        self.__out = OUT 
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(self.__out,GPIO.OUT)
+        self.__pitch = 200
+        self.__duration = 0.2
+        self.__period = 1.0/self.__pitch
+        self.__delay = self.__period / 2
+        self.__cycles = int(self.__duration * self.__pitch)
+
+    def play(self):
+        for loop in range(1,1000):
+            for i in range(self.__cycles):
+                GPIO.output(self.__out, True)
+                time.sleep(self.__delay)
+                GPIO.output(self.__out, False)
+                time.sleep(self.__delay)
