@@ -27,13 +27,12 @@ class RealPlot:
 
     def __animate(self,i):
         self.__ax.clear()
-        plt.title('realtime signal')
+        plt.title('realtime signal voltage')
         plt.xlabel('time(s)')
-        plt.ylabel('bool signal')
-        plt.ylim(0,1.5)
+        plt.ylabel('voltage(V)')
         legend = []
         for chanel in self.__data.keys():
-            self.add(chanel,datetime.now(),0)
+            #self.add(chanel,datetime.now(),0)
             self.__ax.plot(self.__data[chanel]['x'],self.__data[chanel]['y'])
             legend.append(['chanel:'+str(chanel)])
         plt.legend(legend)
