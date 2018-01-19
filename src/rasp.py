@@ -1,16 +1,18 @@
-import RPi.GPIO as GPIO
 from sqlite import Sqlite
 from matplot import RealPlot
 from datetime import datetime
+from gtts import gTTS
+import RPi.GPIO as GPIO
 import time
 import threading
 import Adafruit_MCP3008
+import os
 
 
 class Buzzer:
     def __init__(self, OUT):
-        self.__out = OUT 
-        GPIO.setmode(GPIO.BCM)
+        self.__out = OUT  
+        GPIO.setmode(GPIO.BCM) 
         GPIO.setup(self.__out,GPIO.OUT)
         self.__pitch = 200
         self.__duration = 0.2
@@ -43,8 +45,14 @@ class MCP:
         t = threading.Thread(target = mcp_worker, args = (self.__mcp,voltage,realplot))
         t.start()
 
+class Sound:
+    
+    def generateMP3(self,text,lang,slow, file):
+        tts = gTTS(text, lang, slow)
+        tts.save(file)
 
-
+    def playMP3(self,file):
+        os.system('vlc --play-and-exit '+file)
 
 
 
