@@ -52,7 +52,7 @@ class Sound:
         tts.save(file)
 
     def playMP3(self,file):
-        os.system('vlc --play-and-exit '+file)
+        os.system('vlc --intf dummy --play-and-exit '+file)
 
 
 
